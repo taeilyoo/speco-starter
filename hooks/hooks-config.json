@@ -1,0 +1,168 @@
+{
+  "$schema": "https://claude.ai/schemas/hooks.json",
+  "description": "Speco-Starter Hooks 설정 - 이 내용을 ~/.claude/settings.json에 병합하세요",
+  
+  "hooks": {
+    "PreToolUse": [
+      {
+        "name": "장시간 실행 명령 경고",
+        "description": "npm, yarn, pnpm, pytest 등 장시간 실행될 수 있는 명령에 대해 tmux 사용을 권고",
+        "matcher": {
+          "tool_name": "bash",
+          "command_pattern": "(npm|yarn|pnpm|pytest|jest|playwright|cypress)"
+        },
+        "hooks": [
+          {
+            "type": "command",
+            "command": "echo '⚠️ 장시간 실행될 수 있는 명령입니다. tmux 세션 사용을 권장합니다.'"
+          }
+        ]
+      },
+      {
+        "name": "위험 명령 확인",
+        "description": "rm -rf, DROP, DELETE 등 위험한 명령 실행 전 확인",
+        "matcher": {
+          "tool_name": "bash",
+          "command_pattern": "(rm\\s+-rf|DROP\\s+TABLE|DELETE\\s+FROM|TRUNCATE)"
+        },
+        "hooks": [
+          {
+            "type": "command",
+            "command": "echo '🚨 위험한 명령입니다. 실행 전 확인이 필요합니다.'"
+          }
+        ]
+      },
+      {
+        "name": "Git 강제 푸시 경고",
+        "description": "git push --force 사용 시 경고",
+        "matcher": {
+          "tool_name": "bash",
+          "command_pattern": "git\\s+push.*--force"
+        },
+        "hooks": [
+          {
+            "type": "command",
+            "command": "echo '⚠️ Force push는 다른 사람의 작업을 덮어쓸 수 있습니다.'"
+          }
+        ]
+      }
+    ],
+    
+    "PostToolUse": [
+      {
+        "name": "TypeScript 파일 자동 포맷팅",
+        "description": "ts/tsx 파일 편집 후 Prettier 실행",
+        "matcher": {
+          "tool_name": "file_edit",
+          "file_pattern": "\\.(ts|tsx)$"
+        },
+        "hooks": [
+          {
+            "type": "command",
+            "command": "npx prettier --write $CLAUDE_FILE_PATH 2>/dev/null || true"
+          }
+        ]
+      },
+      {
+        "name": "TypeScript 타입 체크",
+        "description": "ts/tsx 파일 편집 후 타입 체크",
+        "matcher": {
+          "tool_name": "file_edit",
+          "file_pattern": "\\.(ts|tsx)$"
+        },
+        "hooks": [
+          {
+            "type": "command",
+            "command": "npx tsc --noEmit 2>&1 | head -20 || true"
+          }
+        ]
+      },
+      {
+        "name": "console.log 경고",
+        "description": "ts/tsx 파일에 console.log 추가 시 경고",
+        "matcher": {
+          "tool_name": "file_edit",
+          "file_pattern": "\\.(ts|tsx)$"
+        },
+        "hooks": [
+          {
+            "type": "command",
+            "command": "grep -n 'console.log' $CLAUDE_FILE_PATH && echo '⚠️ console.log가 포함되어 있습니다. 프로덕션 전 제거 필요' || true"
+          }
+        ]
+      },
+      {
+        "name": "CSS/SCSS 린팅",
+        "description": "스타일 파일 편집 후 stylelint 실행",
+        "matcher": {
+          "tool_name": "file_edit",
+          "file_pattern": "\\.(css|scss)$"
+        },
+        "hooks": [
+          {
+            "type": "command",
+            "command": "npx stylelint $CLAUDE_FILE_PATH 2>/dev/null || true"
+          }
+        ]
+      },
+      {
+        "name": "ESLint 검사",
+        "description": "JavaScript/TypeScript 파일 편집 후 ESLint 실행",
+        "matcher": {
+          "tool_name": "file_edit",
+          "file_pattern": "\\.(js|jsx|ts|tsx)$"
+        },
+        "hooks": [
+          {
+            "type": "command",
+            "command": "npx eslint $CLAUDE_FILE_PATH --max-warnings 0 2>/dev/null | head -30 || true"
+          }
+        ]
+      }
+    ],
+    
+    "Stop": [
+      {
+        "name": "최종 감사 - console.log",
+        "description": "세션 종료 전 console.log 잔존 검사",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "echo '📋 console.log 검사:' && grep -rn 'console.log' --include='*.ts' --include='*.tsx' src/ 2>/dev/null | head -10 || echo '✅ console.log 없음'"
+          }
+        ]
+      },
+      {
+        "name": "최종 감사 - TODO",
+        "description": "세션 종료 전 미완료 TODO 목록",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "echo '📋 TODO 항목:' && grep -rn 'TODO' --include='*.ts' --include='*.tsx' src/ 2>/dev/null | head -10 || echo '✅ TODO 없음'"
+          }
+        ]
+      },
+      {
+        "name": "최종 감사 - 타입 에러",
+        "description": "세션 종료 전 타입 에러 검사",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "echo '📋 타입 검사:' && npx tsc --noEmit 2>&1 | tail -5 || true"
+          }
+        ]
+      }
+    ]
+  },
+  
+  "notes": {
+    "installation": "이 설정을 적용하려면 ~/.claude/settings.json의 hooks 섹션에 병합하세요",
+    "customization": "프로젝트에 맞게 file_pattern과 command를 수정하세요",
+    "dependencies": [
+      "prettier",
+      "typescript",
+      "eslint",
+      "stylelint (선택)"
+    ]
+  }
+}
