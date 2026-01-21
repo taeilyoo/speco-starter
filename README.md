@@ -3,6 +3,7 @@
 <p align="center">
   <img src="https://img.shields.io/badge/Speco-Starter-6366F1?style=for-the-badge&logo=anthropic&logoColor=white" alt="Speco-Starter">
   <img src="https://img.shields.io/badge/Claude%20Code-Compatible-10B981?style=for-the-badge" alt="Claude Code Compatible">
+  <img src="https://img.shields.io/badge/version-2.0-blue?style=for-the-badge" alt="Version 2.0">
 </p>
 
 <p align="center">
