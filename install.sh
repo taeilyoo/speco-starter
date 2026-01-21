@@ -164,6 +164,7 @@ show_summary() {
     echo "  UI/UX:  /design-review, /flow-check, /wireframe, /a11y-audit"
     echo "  기획:   /spec-generate"
     echo "  개발:   /tdd, /e2e, /test-coverage, /security-audit, /refactor-clean"
+    echo "  빌드:   /build-fix, /code-review, /update-docs"
     echo ""
     echo -e "${YELLOW}다음 단계:${NC}"
     echo "  1. Claude Code를 재시작하세요"
