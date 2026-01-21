@@ -54,6 +54,7 @@ create_directories() {
     mkdir -p "$CLAUDE_DIR/skills"
     mkdir -p "$CLAUDE_DIR/commands"
     mkdir -p "$CLAUDE_DIR/subagents"
+    mkdir -p "$CLAUDE_DIR/rules"
     
     print_success "디렉토리 생성 완료"
 }
@@ -113,6 +114,19 @@ copy_subagents() {
     fi
 }
 
+# 함수: Rules 복사
+copy_rules() {
+    print_step "Rules 파일 복사 중..."
+    
+    if [ -d "$SCRIPT_DIR/rules" ]; then
+        cp -r "$SCRIPT_DIR/rules/"* "$CLAUDE_DIR/rules/"
+        RULE_COUNT=$(ls -1 "$CLAUDE_DIR/rules" | wc -l)
+        print_success "Rules $RULE_COUNT개 설치 완료"
+    else
+        print_warning "rules 폴더를 찾을 수 없습니다 (선택 사항)"
+    fi
+}
+
 # 함수: Hooks 안내
 show_hooks_guide() {
     print_step "Hooks 설정 안내"
@@ -144,6 +158,7 @@ show_summary() {
     echo "  • Skills:    $(ls -1 $CLAUDE_DIR/skills 2>/dev/null | wc -l)개"
     echo "  • Commands:  $(ls -1 $CLAUDE_DIR/commands 2>/dev/null | wc -l)개"
     echo "  • Subagents: $(ls -1 $CLAUDE_DIR/subagents 2>/dev/null | wc -l)개"
+    echo "  • Rules:     $(ls -1 $CLAUDE_DIR/rules 2>/dev/null | wc -l)개"
     echo ""
     echo -e "${BLUE}사용 가능한 Commands:${NC}"
     echo "  UI/UX:  /design-review, /flow-check, /wireframe, /a11y-audit"
@@ -245,6 +260,9 @@ main() {
     if [ "$INSTALL_AGENTS" = true ]; then
         copy_subagents
     fi
+    
+    # Rules는 항상 복사
+    copy_rules
     
     # Hooks 안내
     show_hooks_guide

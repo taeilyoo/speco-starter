@@ -1,0 +1,68 @@
+{
+  "$schema": "https://claude.ai/schemas/mcp-servers.json",
+  "description": "MCP 서버 설정 예시 - ~/.claude.json에 병합하세요",
+  
+  "mcpServers": {
+    "github": {
+      "command": "npx",
+      "args": ["-y", "@anthropic/mcp-server-github"],
+      "env": {
+        "GITHUB_TOKEN": "YOUR_GITHUB_TOKEN_HERE"
+      }
+    },
+    
+    "supabase": {
+      "command": "npx",
+      "args": ["-y", "@anthropic/mcp-server-supabase"],
+      "env": {
+        "SUPABASE_URL": "YOUR_SUPABASE_URL_HERE",
+        "SUPABASE_SERVICE_KEY": "YOUR_SUPABASE_KEY_HERE"
+      }
+    },
+    
+    "vercel": {
+      "command": "npx",
+      "args": ["-y", "@anthropic/mcp-server-vercel"],
+      "env": {
+        "VERCEL_TOKEN": "YOUR_VERCEL_TOKEN_HERE"
+      }
+    },
+    
+    "figma": {
+      "command": "npx",
+      "args": ["-y", "@anthropic/mcp-server-figma"],
+      "env": {
+        "FIGMA_TOKEN": "YOUR_FIGMA_TOKEN_HERE"
+      }
+    },
+    
+    "slack": {
+      "command": "npx",
+      "args": ["-y", "@anthropic/mcp-server-slack"],
+      "env": {
+        "SLACK_TOKEN": "YOUR_SLACK_TOKEN_HERE"
+      }
+    },
+    
+    "notion": {
+      "command": "npx",
+      "args": ["-y", "@anthropic/mcp-server-notion"],
+      "env": {
+        "NOTION_TOKEN": "YOUR_NOTION_TOKEN_HERE"
+      }
+    }
+  },
+  
+  "notes": {
+    "important": "⚠️ 20-30개 설정, 10개 미만 활성화, 80개 미만 도구 권장",
+    "context_warning": "MCP가 많으면 200k 컨텍스트가 70k까지 감소할 수 있음",
+    "recommendation": "프로젝트별로 필요한 MCP만 활성화"
+  },
+  
+  "project_recommendations": {
+    "frontend": ["vercel", "figma"],
+    "backend": ["supabase", "github"],
+    "fullstack": ["github", "vercel", "supabase"],
+    "design": ["figma", "notion"]
+  }
+}

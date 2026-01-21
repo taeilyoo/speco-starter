@@ -56,7 +56,7 @@ cp subagents/* ~/.claude/subagents/
 
 ## 📦 구성 요소
 
-### Skills (8개)
+### Skills (10개)
 
 | 파일 | 용도 |
 |------|------|
@@ -68,8 +68,10 @@ cp subagents/* ~/.claude/subagents/
 | `tdd-workflow.md` | TDD 사이클, AAA 패턴 |
 | `security-checklist.md` | 보안 점검 항목 |
 | `refactoring-principles.md` | 리팩토링 원칙, 코드 스멜 |
+| `backend-patterns.md` | API 설계, DB 패턴, 인증 |
+| `frontend-patterns.md` | React 패턴, 상태 관리, 성능 |
 
-### Commands (10개)
+### Commands (13개)
 
 | 명령어 | 용도 |
 |--------|------|
@@ -83,8 +85,11 @@ cp subagents/* ~/.claude/subagents/
 | `/test-coverage` | 커버리지 분석 |
 | `/security-audit` | 보안 취약점 점검 |
 | `/refactor-clean` | 죽은 코드 정리 |
+| `/build-fix` | 빌드 에러 자동 해결 |
+| `/code-review` | 코드 품질 리뷰 |
+| `/update-docs` | 문서 동기화 |
 
-### Subagents (6개)
+### Subagents (10개)
 
 | 에이전트 | 역할 |
 |----------|------|
@@ -94,12 +99,36 @@ cp subagents/* ~/.claude/subagents/
 | `spec-writer` | 기능 명세서 작성 |
 | `prototype-validator` | 프로토타입 완성도 검증 |
 | `security-reviewer` | 보안 취약점 분석 |
+| `architect` | 시스템 설계, 아키텍처 리뷰 |
+| `build-error-resolver` | 빌드/타입 에러 해결 |
+| `doc-updater` | 문서 동기화 |
+| `code-reviewer` | 코드 품질 리뷰 |
+
+### Rules (5개) 🆕
+
+| 파일 | 용도 |
+|------|------|
+| `security.md` | 필수 보안 규칙 |
+| `coding-style.md` | 코딩 스타일 규칙 |
+| `testing.md` | 테스트 작성 규칙 |
+| `git-workflow.md` | Git 커밋/브랜치 규칙 |
+| `agents.md` | Subagent 사용 규칙 |
 
 ### Hooks
 
 - **PreToolUse**: 위험 명령 경고, 장시간 실행 권고
 - **PostToolUse**: 자동 포맷팅, 타입 체크, console.log 경고
 - **Stop**: 최종 감사 (잔존 console.log, TODO)
+
+### MCP Configs 🆕
+
+- 주요 MCP 서버 설정 예시 (GitHub, Supabase, Vercel, Figma 등)
+- 프로젝트 유형별 권장 MCP 조합
+
+### Examples 🆕
+
+- `CLAUDE.md` - 프로젝트 루트 설정 예시
+- `user-CLAUDE.md` - 사용자 전역 설정 예시
 
 ## 🎯 워크플로우
 
@@ -186,7 +215,9 @@ speco-starter/
 │   ├── coding-standards.md
 │   ├── tdd-workflow.md
 │   ├── security-checklist.md
-│   └── refactoring-principles.md
+│   ├── refactoring-principles.md
+│   ├── backend-patterns.md       # 🆕
+│   └── frontend-patterns.md      # 🆕
 ├── commands/
 │   ├── design-review.md
 │   ├── flow-check.md
@@ -197,16 +228,34 @@ speco-starter/
 │   ├── e2e.md
 │   ├── test-coverage.md
 │   ├── security-audit.md
-│   └── refactor-clean.md
+│   ├── refactor-clean.md
+│   ├── build-fix.md              # 🆕
+│   ├── code-review.md            # 🆕
+│   └── update-docs.md            # 🆕
 ├── subagents/
 │   ├── ui-reviewer.md
 │   ├── planner.md
 │   ├── flow-analyst.md
 │   ├── spec-writer.md
 │   ├── prototype-validator.md
-│   └── security-reviewer.md
-└── hooks/
-    └── hooks-config.json
+│   ├── security-reviewer.md
+│   ├── architect.md              # 🆕
+│   ├── build-error-resolver.md   # 🆕
+│   ├── doc-updater.md            # 🆕
+│   └── code-reviewer.md          # 🆕
+├── rules/                        # 🆕
+│   ├── security.md
+│   ├── coding-style.md
+│   ├── testing.md
+│   ├── git-workflow.md
+│   └── agents.md
+├── hooks/
+│   └── hooks-config.json
+├── mcp-configs/                  # 🆕
+│   └── mcp-servers.json
+└── examples/                     # 🆕
+    ├── CLAUDE.md
+    └── user-CLAUDE.md
 ```
 
 ## 🤝 기여하기
